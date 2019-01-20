@@ -175,7 +175,8 @@ NOTES:
  *   Rating: 1
  */
 int bitOr(int x, int y) {
-  return 2;
+    int result = ~x & ~y;
+    return ~result;
 }
 /* 
  * evenBits - return word with all even-numbered bits set to 1
@@ -184,7 +185,10 @@ int bitOr(int x, int y) {
  *   Rating: 1
  */
 int evenBits(void) {
-  return 2;
+    int odd = 0x55;
+    int shift8 = (odd << 8) | odd;
+    int shift16 = (shift8 << 16) | shift8;
+    return shift16;
 }
 /* 
  * minusOne - return a value of -1 
@@ -193,7 +197,7 @@ int evenBits(void) {
  *   Rating: 1
  */
 int minusOne(void) {
-  return 2;
+  return ~0;
 }
 /* 
  * allEvenBits - return 1 if all even-numbered bits in word set to 1
@@ -203,7 +207,15 @@ int minusOne(void) {
  *   Rating: 2
  */
 int allEvenBits(int x) {
-  return 2;
+    
+    int even = 0x55;
+    int shift8 = (even << 8) | even;
+    int shift16 = (shift8 << 16) | shift8;  //creates a 32 bit number will all even bits set to 1 and all odd bits set to 0
+    
+    int check = (x & shift16);
+    int doubleCheck = !(shift16 ^ check);
+    
+    return doubleCheck;
 }
 /* 
  * anyOddBit - return 1 if any odd-numbered bit in word set to 1
@@ -213,7 +225,13 @@ int allEvenBits(int x) {
  *   Rating: 2
  */
 int anyOddBit(int x) {
-    return 2;
+    int odd = 0xaa;
+    int shift8 = (odd << 8) | odd;
+    int shift16 = (shift8 << 16) | shift8;
+    
+    int check = !!(x & shift16);
+    
+    return check;
 }
 /* 
  * byteSwap - swaps the nth byte and the mth byte
