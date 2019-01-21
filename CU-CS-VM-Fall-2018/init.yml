@@ -1,0 +1,55 @@
+---
+- name: Downloads and installs all necessary git and apt files for a development environment for vm's
+  hosts: all
+  become: true
+
+  tasks:
+  - name: upgrade apt and apt cache
+    apt:
+      upgrade: yes
+      update_cache: yes
+
+  - name: install git
+    apt: name={{ item  }} state=installed
+    with_items:
+    - git
+    - vim
+    - gcc-multilib
+    - zsh
+
+  # - name: add github ssh key
+  #   copy:
+  #     src: ~/Documents/CUBoulderDocuments/2019_Spring/ComputerSystems/CU-CS-VM-Fall-2018/id_rsa.github
+  #     dest: ~/.ssh/id_rsa.github
+  #     owner: root
+  #     group: root
+  #     mode: 0600
+
+  # - name: configure ssh to use ansible key for github
+  #   template:
+  #     src: ./ssh_config.j2
+  #     dest: ~/.ssh/config
+  #     owner: root
+  #     group: root
+  #     mode: 0600
+
+  - name: pull git files from computer_systems repo
+    git:
+      repo: https://github.com/lnestelroad/Computer_Systems.git 
+      # key_file: /home/vagrant/.ssh/github
+      dest: /home/vagrant/Computer_Systems
+
+  - name: set up vim configuration
+    git:
+      repo: https://github.com/VundleVim/Vundle.vim.git
+      dest: ~/.vim/bundle/Vundle.vim
+
+  - name: set the correct values in .vimrc
+    copy: 
+      src: ./vimrc.txt
+      dest: ~/.vimrc
+
+  - name: run newly uploaded code
+    command: chdir=/home/vagrant/Computer_Systems/Data_Lab/datalab-handout {{ item }}
+    with_items:
+    - ./driver.pl
