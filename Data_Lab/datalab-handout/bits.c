@@ -254,7 +254,9 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 3
  */
 int addOK(int x, int y) {
-  return 2;
+  int add = x + y;
+  int shift = add >> 31;
+  return shift;
 }
 /* 
  * conditional - same as x ? y : z 
