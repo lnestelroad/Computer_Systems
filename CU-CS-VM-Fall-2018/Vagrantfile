@@ -21,6 +21,7 @@ config.vm.define "tf" do |tf|
 
     tf.vm.provision "ansible" do |ansible|
       ansible.playbook = "./init.yml"
+      ansible.verbose = true
 
     end
   end

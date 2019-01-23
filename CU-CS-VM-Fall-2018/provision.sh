@@ -14,6 +14,9 @@ export ANSIBLE_LOG_PATH=/tmp/ansible_$(date +%Y%m%d%H%M%S).log
 # else the vm is running simply reprovision (run ansible)
 vagrant up --provision
 
+cat ./tf/tmp/DriverLog.txt
+
+rm -rf ./tf
 # 
 if [ "$1" == "destroy" ]; then
     vagrant destroy -f

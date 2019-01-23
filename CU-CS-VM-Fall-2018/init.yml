@@ -36,5 +36,12 @@
       src: ./vimrc.txt
       dest: ~/.vimrc
  
-  - name: exicutes bits.c script
-    shell: sh ~/ComputerSystems/Data_Lab/CU-CS-VM-Fall-2018/run.sh 
+  - name: exicutes driver script and stores in file
+    command: ./run.sh 
+    args:
+      chdir: /home/vagrant/Computer_Systems/Data_Lab/datalab-handout 
+
+  - name: fetches log file and stores in current directory
+    fetch:
+      src: /tmp/DriverLog.txt 
+      dest: . 
