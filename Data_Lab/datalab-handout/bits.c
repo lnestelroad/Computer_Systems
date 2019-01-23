@@ -244,9 +244,9 @@ int anyOddBit(int x) {
  */
 int byteSwap(int x, int n, int m) {
     int mask = 0x000000ff;
-    int firstByte = (x & (mask << (n << 3))) << (m + ~n + 1);
-    int SecondByte = (x & (mask << (m << 3))) >> (m + ~n + 1);
-    int maskShift = mask & (~(mask << (n << 3)) | ~(mask << (m << 3))); /*zeros out the byte positions to be swapped*/
+    int firstByte = (x & (mask << (n << 3))) << ((m + ~n + 1) << 3);
+    int SecondByte = (x & (mask << (m << 3))) >> ((m + ~n + 1) << 3);
+    int maskShift = (~(mask << (n << 3)) | ~(mask << (m << 3))); /*zeros out the byte positions to be swapped*/
     int comeTogether = firstByte + SecondByte + maskShift;
     return comeTogether;
 }
