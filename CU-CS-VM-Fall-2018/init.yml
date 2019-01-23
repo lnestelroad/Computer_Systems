@@ -35,8 +35,6 @@
     copy: 
       src: ./vimrc.txt
       dest: ~/.vimrc
-
-  - name: run newly uploaded code
-    command: chdir=/home/vagrant/Computer_Systems/Data_Lab/datalab-handout {{ item }}
-    with_items:
-    - ./driver.pl
+ 
+  - name: exicutes bits.c script
+    shell: sh ~/ComputerSystems/Data_Lab/datalab-handout/run.sh 
