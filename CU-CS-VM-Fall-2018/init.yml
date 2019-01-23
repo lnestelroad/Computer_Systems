@@ -37,4 +37,4 @@
       dest: ~/.vimrc
  
   - name: exicutes bits.c script
-    shell: sh ~/ComputerSystems/Data_Lab/datalab-handout/run.sh 
+    shell: sh ~/ComputerSystems/Data_Lab/CU-CS-VM-Fall-2018/run.sh 
