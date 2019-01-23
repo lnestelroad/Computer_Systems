@@ -266,7 +266,8 @@ int addOK(int x, int y) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+  int mask = !x + ~0x00;
+  return ((~mask) & z) | ((mask) & y);
 }
 /* 
  * isAsciiDigit - return 1 if 0x30 <= x <= 0x39 (ASCII codes for characters '0' to '9')
