@@ -243,6 +243,7 @@ int anyOddBit(int x) {
  *  Rating: 2
  */
 int byteSwap(int x, int n, int m) {
+    int mask = 0xff;
     return 2;
 }
 /* 
@@ -256,7 +257,9 @@ int byteSwap(int x, int n, int m) {
 int addOK(int x, int y) {
   int add = x + y;
   int shift = add >> 31;
-  return shift;
+  int xshift = x >> 31;
+  int check = xshift & shift;
+  return check;
 }
 /* 
  * conditional - same as x ? y : z 
