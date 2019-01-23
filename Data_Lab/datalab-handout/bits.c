@@ -248,7 +248,7 @@ int byteSwap(int x, int n, int m) {
     int firstByte = (x & (mask << (n << 3))) << (tmp);
     int SecondByte = (x & (mask << (m << 3))) >> (tmp);
     int maskShift = x & (~(mask << (n << 3)) | ~(mask << (m << 3))); /*zeros out the byte positions to be swapped*/
-    int comeTogether = firstByte + SecondByte + maskShift;
+    int comeTogether = firstByte | SecondByte | maskShift;
     return comeTogether;
 }
 /* 
