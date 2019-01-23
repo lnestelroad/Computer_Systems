@@ -258,7 +258,7 @@ int byteSwap(int x, int n, int m) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 20
  *   Rating: 3
- */
+ *
 int addOK(int x, int y) {
   int add = x + y;
   int shift = add >> 31;
