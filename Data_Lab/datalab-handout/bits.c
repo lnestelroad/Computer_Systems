@@ -306,7 +306,14 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int replaceByte(int x, int n, int c) {
-  return 2;
+  int mask = 0xff;
+  int nshift = (n << 3);
+
+  int byteShift = c << nshift;
+  int leftover = ~(mask << nshift) & x;
+
+  int result = byteShift + leftover;
+  return result;
 }
 /* reverseBits - reverse the bits in a 32-bit integer,
               i.e. b0 swaps with b31, b1 with b30, etc
