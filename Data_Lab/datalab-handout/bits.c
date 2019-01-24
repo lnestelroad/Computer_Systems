@@ -269,7 +269,7 @@ int addOK(int x, int y) {
   int xshift = x >> 31;
   int yshift = y >> 31;
 
-  int xAndy = x & y;
+  int xAndy = xshift & yshift;
   int check = !(xAndy ^ add);
   return check;
 }
