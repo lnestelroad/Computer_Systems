@@ -244,11 +244,15 @@ int anyOddBit(int x) {
  */
 int byteSwap(int x, int n, int m) {
     int mask = 0xff;
+
     int tmp = (m + ~n + 1) << 3;
+
     int firstByte = (x & (mask << (n << 3))) << (tmp);
     int SecondByte = (x & (mask << (m << 3))) >> (tmp);
-    int maskShift = x & (~(mask << (n << 3)) | ~(mask << (m << 3))); /*zeros out the byte positions to be swapped*/
-    int comeTogether = firstByte | SecondByte | maskShift;
+    int maskShift = (mask << (n << 3)) + (mask << (m << 3));
+    int change = x & maskShift;
+    /*int maskShift = x & (~(mask << (n << 3)) | ~(mask << (m << 3))); zeros out the byte positions to be swapped*/
+    int comeTogether = firstByte | SecondByte | change;
     return comeTogether;
 }
 /* 
@@ -258,7 +262,7 @@ int byteSwap(int x, int n, int m) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 20
  *   Rating: 3
- *
+ */
 int addOK(int x, int y) {
   int add = x + y;
   int shift = add >> 31;
