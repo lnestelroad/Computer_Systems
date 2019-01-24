@@ -265,10 +265,12 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 3
  */
 int addOK(int x, int y) {
-  int add = x + y;
-  int shift = add >> 31;
+  int add = (x + y) >> 31;
   int xshift = x >> 31;
-  int check = xshift & shift;
+  int yshift = y >> 31;
+
+  int xAndy = x & y;
+  int check = !(xAndy ^ add);
   return check;
 }
 /* 
