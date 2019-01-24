@@ -294,7 +294,14 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
+  int max = 0x39;
+  int min = 0x30;
+
+  int largerMin = (x + ~min + 1) >> 31;
+  int lessMax = (max + ~x + 1) >> 31;
+
+  int between = !(largerMin | lessMax);
+  return between;
 }
 /* 
  * replaceByte(x,n,c) - Replace byte n in x with c
