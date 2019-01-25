@@ -360,21 +360,19 @@ int reverseBits(int x) {
  *   Rating: 4
  */
 int satAdd(int x, int y) {
-  /* 
-  
+  /*
   int add = (x + y) >> 31;
   int xshift = x >> 31;
   int yshift = y >> 31;
 
   int xAndy = xshift ^ yshift;
   int check = !(!xAndy & (xshift ^ add));
-  int IF = check & ()
+  int IF = check & ();
 
   int mask = !check + ~0x00;
   return ((~mask) & z) | ((mask) & y);
-  
-  */
-  return -1;
+*/
+  return -2;
 }
 /*
  * Extra credit
