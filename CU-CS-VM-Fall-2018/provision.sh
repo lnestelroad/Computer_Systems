@@ -12,6 +12,13 @@ export ANSIBLE_LOG_PATH=/tmp/ansible_$(date +%Y%m%d%H%M%S).log
 
 # if the vm is not running then run it
 # else the vm is running simply reprovision (run ansible)
+
+if [ "$1" == "-g" ]; then
+	git add -A
+	git commit -m "test for bits.c"
+	git push
+fi
+
 vagrant up --provision
 
 cat ./tf/tmp/DriverLog.txt

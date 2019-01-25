@@ -10,12 +10,16 @@
       cache_valid_time: 86400
 
   - name: install git, vim, zsh, and gcc libraries
-    apt: name={{ item  }} state=installed
-    with_items:
-    - git
-    - vim
-    - gcc-multilib
-    - zsh
+    apt:
+      name: [git, vim, gcc-multilib]
+      state: present
+
+    # apt: name={{ item  }} state=installed
+    # with_items:
+    # - git
+    # - vim
+    # - gcc-multilib
+    # - zsh
   
   - name: set .ssh/config
     copy:

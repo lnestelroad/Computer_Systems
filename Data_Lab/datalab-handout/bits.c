@@ -249,6 +249,7 @@ int byteSwap(int x, int n, int m) {
 
     int firstByte = (x & (mask << (n << 3))) << (tmp);
     int SecondByte = (x & (mask << (m << 3))) >> (tmp);
+    
     int maskShift = (mask << (n << 3));
     int maskShift2 = (mask << (m << 3));
     int leftover = ~(maskShift | maskShift2);
@@ -269,8 +270,8 @@ int addOK(int x, int y) {
   int xshift = x >> 31;
   int yshift = y >> 31;
 
-  int xAndy = xshift | yshift;
-  int check = !(xAndy ^ add);
+  int xAndy = xshift ^ yshift;
+  int check = !(xAndy & (x ^ add));
   return check;
 }
 /* 
@@ -335,6 +336,9 @@ int replaceByte(int x, int n, int c) {
  *  Rating: 4
  */
 int reverseBits(int x) {
+  int mask = 0xff;
+  
+  int firstByte = (x & (mask << 24)) >> 24;
   return 0;
 }
 /*
