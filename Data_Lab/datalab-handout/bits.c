@@ -255,8 +255,7 @@ int byteSwap(int x, int n, int m) {
     return (x & leftover) + ((firstByte & mask) << mshift) + ((secondByte & mask) << nshift);
 
 
-
-
+/*
     int tmp = (m + ~n + 1) << 3;
 
     int firstByte = (x & (mask << (n << 3))) << (tmp);
@@ -268,6 +267,7 @@ int byteSwap(int x, int n, int m) {
     int maskShift = x & (~(mask << (n << 3)) | ~(mask << (m << 3)));
     int comeTogether = firstByte | SecondByte | leftover;
     return comeTogether; 
+*/
 }
 /* 
  * addOK - Determine if can compute x+y without overflow
