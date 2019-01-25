@@ -244,18 +244,15 @@ int anyOddBit(int x) {
  */
 int byteSwap(int x, int n, int m) {
     int mask = 0xff;
+    int nshift = n << 3;
+    int mshift = m << 3;
 
-    int tmp = (m + ~n + 1) << 3;
+    int firstByte = x >> nshift;
+    int secondByte = x >> mshift;
 
-    int firstByte = (x & (mask << (n << 3))) << (tmp);
-    int SecondByte = (x & (mask << (m << 3))) >> (tmp);
-    
-    int maskShift = (mask << (n << 3));
-    int maskShift2 = (mask << (m << 3));
-    int leftover = x & (~(maskShift | maskShift2));
-    /*int maskShift = x & (~(mask << (n << 3)) | ~(mask << (m << 3))); zeros out the byte positions to be swapped*/
-    int comeTogether = firstByte | SecondByte | leftover;
-    return comeTogether;
+    int leftover = ~(mask << nshift) & ~(mask << mshift);
+
+    return (x & leftover) + (firstByte << mshift) + (secondByte << nshift);
 }
 /* 
  * addOK - Determine if can compute x+y without overflow
