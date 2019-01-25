@@ -266,7 +266,7 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 3
  */
 int addOK(int x, int y) {
-  int add = (x + y);
+  int add = (x + ~y +1);
   int xORy = x ^ y;
   int check = !((xORy & (x ^ add)) >> 31);
   return check;
