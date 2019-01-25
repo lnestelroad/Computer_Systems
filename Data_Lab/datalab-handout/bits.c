@@ -248,11 +248,11 @@ int byteSwap(int x, int n, int m) {
     int mshift = m << 3;
 
     int firstByte = x >> nshift;
-    int secondByte = x >> mshift;
+    int secondByte = (x >> mshift);
 
     int leftover = ~(mask << nshift) & ~(mask << mshift);
 
-    return (x & leftover) + (firstByte << mshift) + (secondByte << nshift);
+    return (x & leftover) + ((firstByte & mask) << mshift) + ((secondByte & mask) << nshift);
 }
 /* 
  * addOK - Determine if can compute x+y without overflow
