@@ -347,9 +347,6 @@ int replaceByte(int x, int n, int c) {
  *  Rating: 4
  */
 int reverseBits(int x) {
-  int mask = 0xff;
-  
-  int firstByte = (x & (mask << 24)) >> 24;
   return 0;
 }
 /*
