@@ -249,7 +249,7 @@ int byteSwap(int x, int n, int m) {
     int mshift = m << 3;
 
     int firstByte = x >> nshift;
-    int secondByte = (x >> mshift);
+    int secondByte = (x >> mshift) & ;
 
     int leftover = ~(mask << nshift) & ~(mask << mshift);
 
@@ -259,12 +259,12 @@ int byteSwap(int x, int n, int m) {
     int tmp = (m + ~n + 1) << 3;
 
     int firstByte = (x & (mask << (n << 3))) << (tmp);
-    int SecondByte = (x & (mask << (m << 3))) >> (tmp);
+    int SecondByte = (mask << (n << 3 )) & (x & (mask << (m << 3))) >> (tmp);
     
     int maskShift = (mask << (n << 3));
     int maskShift2 = (mask << (m << 3));
     int leftover = x & (~(maskShift | maskShift2));
-    int comeTogether = firstByte | (SecondByte & ((mask << (m << 3)) >> tmp)) | leftover;
+    int comeTogether = firstByte | SecondByte | leftover;
     return comeTogether; 
 }
 /* 
@@ -359,7 +359,21 @@ int reverseBits(int x) {
  *   Rating: 4
  */
 int satAdd(int x, int y) {
-  return 2;
+  /* 
+  
+  int add = (x + y) >> 31;
+  int xshift = x >> 31;
+  int yshift = y >> 31;
+
+  int xAndy = xshift ^ yshift;
+  int check = !(!xAndy & (xshift ^ add));
+  int IF = check & ()
+
+  int mask = !check + ~0x00;
+  return ((~mask) & z) | ((mask) & y);
+  
+  */
+  return -1;
 }
 /*
  * Extra credit
