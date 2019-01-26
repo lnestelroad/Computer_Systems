@@ -273,7 +273,7 @@ int byteSwap(int x, int n, int m) {
 
     int mask = 0xff;
 
-    int shiftnpos=n << 3;
+    int shiftnpos = n << 3;
     int shiftmpos= m << 3;
 
     int maskShift = ~(mask << shiftnpos);
@@ -281,7 +281,7 @@ int byteSwap(int x, int n, int m) {
 
     int storeN =(x >> shiftnpos) & 0xff;
     int storeM =(x >> shiftmpos) & 0xff;
-    int maskN = x & (maskShift | maskShift2);
+    int maskN = x & (maskShift & maskShift2);
     return maskN | ((storeN << shiftmpos) | (storeM << shiftnpos));
 }
 /* 
