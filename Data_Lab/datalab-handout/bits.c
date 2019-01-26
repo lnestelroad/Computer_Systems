@@ -352,19 +352,20 @@ int satAdd(int x, int y) {
   int lowest = 0x80000000;
 
   int add = (x + y) >> 31;
-  int xshift = x >> 31;
-  int yshift = y >> 31;
+  int xshift = 0x1 & (x >> 31);
+  int yshift = 0x1 & (y >> 31);
 
   int xNORy = xshift ^ yshift;
-  int check = !(!(xNORy) & (xshift ^ add));  //determins if there was an overflow
-  int posOverflow = check & xshift;
+  int check = !(xNORy) & (xshift ^ add);  //determins if there was an overflow
+
+  int posOverflow = check ^ xshift;
+  int negOverflow = check & xshift;
 
   int posMask = !posOverflow + ~0x00;
-  int negMask = !(posOverflow | x) + ~0x00;
+  int negMask = !negOverflow + ~0x00;
 
-  return ((~posMask) & ( ((~negMask) & (x + y)) | ((negMask) & lowest) )) | ((posMask) & highest);
-
-  
+  int condNeg = ((~negMask) & (x + y)) | ((negMask) & lowest);
+  return ((~posMask) & condNeg) | ((posMask) & highest);
 }
 /*
  * Extra credit
