@@ -358,8 +358,8 @@ int satAdd(int x, int y) {
   int xNORy = xshift ^ yshift;
   int check = !(xNORy) & (xshift ^ add);  //determins if there was an overflow
 
-  int posOverflow = check ^ xshift;
-  int negOverflow = check & xshift;
+  int posOverflow = check ^ yshift;
+  int negOverflow = check & yshift;
 
   int posMask = !posOverflow + ~0x00;
   int negMask = !negOverflow + ~0x00;
