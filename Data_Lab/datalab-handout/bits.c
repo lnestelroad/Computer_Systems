@@ -360,10 +360,10 @@ int satAdd(int x, int y) {
   int posORneg = check & x;
 
   int mask = !posORneg + ~0x00;
-  return ((~mask) & lowest) | ((mask) & highest);
+  int overflow = ((~mask) & lowest) | ((mask) & highest);
 
-  // int mask2 = (!xNORy) + ~0x00;
-  // return ((~mask2) & add) | ((mask) & overflow); 
+  int mask2 = (!check) + ~0x00;
+  return ((~mask2) & add) | ((mask) & overflow); 
 }
 /*
  * Extra credit
