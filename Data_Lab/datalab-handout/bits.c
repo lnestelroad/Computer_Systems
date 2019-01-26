@@ -245,7 +245,6 @@ int anyOddBit(int x) {
 int byteSwap(int x, int n, int m) {
     int nshift = n << 3;
     int mshift = m << 3;
-
     int mask = 0xff;
 
     int maskShift = (mask << nshift);
@@ -270,8 +269,8 @@ int addOK(int x, int y) {
   int xshift = x >> 31;
   int yshift = y >> 31;
 
-  int xAndy = xshift ^ yshift;
-  int check = !((!(xAndy)) & (xshift ^ add));
+  int xNORy = xshift ^ yshift;
+  int check = !((!(xNORy)) & (xshift ^ add));
   return check;
 }
 /* 
@@ -349,19 +348,19 @@ int reverseBits(int x) {
  *   Rating: 4
  */
 int satAdd(int x, int y) {
-  /*
+  int highest = 0x7fffffff;
+  int lowest = 0x80000000;
+
   int add = (x + y) >> 31;
   int xshift = x >> 31;
   int yshift = y >> 31;
 
-  int xAndy = xshift ^ yshift;
-  int check = !(!xAndy & (xshift ^ add));
-  int IF = check & ();
+  int xNORy = xshift ^ yshift;
+  int check = xNORy & (x ^ add);
+  int posORneg = check & x;
 
-  int mask = !check + ~0x00;
-  return ((~mask) & z) | ((mask) & y);
-*/
-  return -2;
+  int mask = !posORneg + ~0x00;
+  return ((~mask) & lowest) | ((mask) & highest);
 }
 /*
  * Extra credit
