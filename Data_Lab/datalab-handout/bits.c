@@ -349,7 +349,9 @@ int reverseBits(int x) {
  */
 int satAdd(int x, int y) {
   int highest = 0x7fffffff;
-  int lowest = 0x80000000;
+  int temp = 0x8;
+  int shift8 = (temp << 8) | temp;
+  int lowest = (shift8 << 16) | shift8;
 
   int add = (x + y) >> 31;
   int xshift = x >> 31;
@@ -363,7 +365,7 @@ int satAdd(int x, int y) {
   int overflow = ((~mask) & highest) | ((mask) & lowest);
 
   int mask2 = (!xNORy) + ~0x00;
-  return ((~mask2) & add) | ((mask) & 3); 
+  return ((~mask2) & add) | ((mask) & overflow); 
 }
 /*
  * Extra credit
