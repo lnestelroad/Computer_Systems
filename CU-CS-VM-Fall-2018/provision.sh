@@ -23,6 +23,10 @@ vagrant up --provision
 
 cat ./tf/tmp/DriverLog.txt
 
+if [ "$2" == "-e" ]; then
+	cat ./tf/tmp/ErrorLog.txt
+fi
+
 rm -rf ./tf
 # 
 if [ "$1" == "destroy" ]; then

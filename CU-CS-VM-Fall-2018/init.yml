@@ -36,7 +36,17 @@
     args:
       chdir: /home/vagrant/Computer_Systems/Data_Lab/datalab-handout 
 
+  - name: runs make file to see output
+    command: ./run.sh
+    args:
+      chdir: ~       
+
   - name: fetches log file and stores in current directory
     fetch:
       src: /tmp/DriverLog.txt 
       dest: . 
+
+  - name: grabs error file
+    fetch:
+      src: /tmp/ErrorLog.txt
+      dest: .

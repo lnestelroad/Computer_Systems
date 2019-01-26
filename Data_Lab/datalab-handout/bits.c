@@ -363,7 +363,7 @@ int satAdd(int x, int y) {
   int overflow = ((~mask) & highest) | ((mask) & lowest);
 
   int mask2 = (!!xNORy) + ~0x00;
-  return ((~mask2) & overflow) | ((mask) & add); 
+  return ((~mask2) & add) | ((mask) & overflow); 
 }
 /*
  * Extra credit
