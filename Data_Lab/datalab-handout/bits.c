@@ -349,9 +349,7 @@ int reverseBits(int x) {
  */
 int satAdd(int x, int y) {
   int highest = 0x7fffffff;
-  int temp = 0x8;
-  int shift8 = (temp << 8) | temp;
-  int lowest = (shift8 << 16) | shift8;
+  int lowest = 0x80000000;
 
   int add = (x + y) >> 31;
   int xshift = x >> 31;
