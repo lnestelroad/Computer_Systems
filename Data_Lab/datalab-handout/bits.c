@@ -356,7 +356,7 @@ int satAdd(int x, int y) {
   int yshift = y >> 31;
 
   int xNORy = xshift ^ yshift;
-  int check = xNORy & (x ^ add);
+  int check = !(xNORy) & (x ^ add);
   int posORneg = check & x;
 
   int mask = !posORneg + ~0x00;
