@@ -243,46 +243,19 @@ int anyOddBit(int x) {
  *  Rating: 2
  */
 int byteSwap(int x, int n, int m) {
-  /*
-    int mask = 0xff;
     int nshift = n << 3;
     int mshift = m << 3;
 
-    int firstByte = x >> nshift;
-    int secondByte = (x >> mshift) & ;
-
-    int leftover = ~(mask << nshift) & ~(mask << mshift);
-
-    return (x & leftover) + ((firstByte & mask) << mshift) + ((secondByte & mask) << nshift);
-
-    int mask = 0xff;
-    int tmp = (m + ~n + 1) << 3;
-    
-    int maskShift = (mask << (n << 3));
-    int maskShift2 = (mask << (m << 3));
-
-    int firstByte = (maskShift & x) << (tmp);
-    int SecondByte = maskShift & ((maskShift2 & x) >> tmp);
-
-    
-    int leftover = x & (~(maskShift | maskShift2));
-    int comeTogether = firstByte | SecondByte | leftover;
-    return comeTogether; 
-
-*/
-
     int mask = 0xff;
 
-    int shiftnpos = n << 3;
-    int shiftmpos= m << 3;
+    int maskShift = (mask << nshift);
+    int maskShift2 = (mask << mshift);
 
-    int maskShift = ~(mask << shiftnpos);
-    int maskShift2 = ~(mask << shiftmpos);
+    int leftovers = x & ~(maskShift | maskShift2);
+    int nchange = (x >> nshift) & mask;
+    int mchange =(x >> mshift ) & mask;
 
-    int storeN =(x >> shiftnpos) & 0xff;
-    int storeM =(x >> shiftmpos) & 0xff;
-    int maskN = x & (maskShift & maskShift2);
-    return maskN | ((storeN << shiftmpos) | (storeM << shiftnpos));
+    return leftovers | (nchange << mshift ) | (mchange << nshift);
 }
 /* 
  * addOK - Determine if can compute x+y without overflow
