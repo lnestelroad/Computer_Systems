@@ -356,7 +356,7 @@ int satAdd(int x, int y) {
   int yshift = 0x1 & (y >> 31);
 
   int xNORy = xshift ^ yshift;
-  int check = ((add ^ y) & ( add ^ x)) >> 31;  //determins if there was an overflow
+  int check = 0x1 & (((add ^ y) & ( add ^ x)) >> 31);  //determins if there was an overflow
 
   int posOverflow = (check ^ yshift) & ~xNORy;
   int negOverflow = (check & yshift) & ~xNORy;
