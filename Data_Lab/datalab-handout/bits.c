@@ -351,7 +351,7 @@ int satAdd(int x, int y) {
   int highest = 0x7fffffff;
   int lowest = 0x80000000;
 
-  int add = (x + y) >> 31;
+  int add = ((x & lowest) + (y & lowest)) >> 31;
   int xshift = 0x1 & (x >> 31);
   int yshift = 0x1 & (y >> 31);
 
