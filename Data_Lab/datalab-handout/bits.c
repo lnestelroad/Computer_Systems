@@ -351,12 +351,12 @@ int satAdd(int x, int y) {
   int highest = 0x7fffffff;
   int lowest = 0x80000000;
 
-  int add = ((x & lowest) + (y & lowest)) >> 31;
+  int add = x + y;
   int xshift = 0x1 & (x >> 31);
   int yshift = 0x1 & (y >> 31);
 
   int xNORy = xshift ^ yshift;
-  int check = !(xNORy) & (xshift ^ add);  //determins if there was an overflow
+  int check = ((add ^ y) & ( add ^ x)) >> 31;  //determins if there was an overflow
 
   int posOverflow = (check ^ yshift) & ~xNORy;
   int negOverflow = (check & yshift) & ~xNORy;
