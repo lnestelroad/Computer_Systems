@@ -357,7 +357,7 @@ int reverseBits(int x) {
   int byteShiftSixteen = byteSwap << 16 | byteSwap;  //now the mask will be 0xff00ff00 thus allowing whole bytes to be swaped
   
   int B = ((N >> 8) & byteShiftSixteen) | ((N & byteShiftSixteen) << 8); //its shited by 8 inorder to account for the size of a byte
-
+  return B;
   int halfSwap = 0xffu;
   int halfShiftEight = (halfSwap << 8) | halfSwap; // only one shift is done to get the mask 0xffff which will allow for a half word swap
 
