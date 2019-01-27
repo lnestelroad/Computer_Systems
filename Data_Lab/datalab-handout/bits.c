@@ -186,9 +186,9 @@ int bitOr(int x, int y) {
  */
 int evenBits(void) {
     int odd = 0x55;
-    int shift8 = (odd << 8) | odd;
-    int shift16 = (shift8 << 16) | shift8;
-    return shift16;
+    int shiftEight = (odd << 8) | odd;
+    int shiftSixteen = (shiftEight << 16) | shiftEight;
+    return shiftSixteen;
 }
 /* 
  * minusOne - return a value of -1 
@@ -209,11 +209,11 @@ int minusOne(void) {
 int allEvenBits(int x) {
     
     int even = 0x55;
-    int shift8 = (even << 8) | even;
-    int shift16 = (shift8 << 16) | shift8;  //creates a 32 bit number will all even bits set to 1 and all odd bits set to 0
+    int shiftEight = (even << 8) | even;
+    int shiftSixteen = (shiftEight << 16) | shiftEight;  //creates a 32 bit number will all even bits set to 1 and all odd bits set to 0
     
-    int check = (x & shift16);
-    int doubleCheck = !(shift16 ^ check);
+    int check = (x & shiftSixteen);
+    int doubleCheck = !(shiftSixteen ^ check);
     
     return doubleCheck;
 }
@@ -226,10 +226,10 @@ int allEvenBits(int x) {
  */
 int anyOddBit(int x) {
     int odd = 0xaa;
-    int shift8 = (odd << 8) | odd;
-    int shift16 = (shift8 << 16) | shift8;
+    int shiftEight = (odd << 8) | odd;
+    int shiftSixteen = (shiftEight << 16) | shiftEight;
     
-    int check = !!(x & shift16);
+    int check = !!(x & shiftSixteen);
     
     return check;
 }
@@ -336,33 +336,33 @@ int replaceByte(int x, int n, int c) {
  */
 int reverseBits(int x) {
   int EvenOddSwap = 0x55;
-  int EvenOddShift8 = EvenOddSwap << 8 | EvenOddSwap;
-  int EvenOddShift16 = (EvenOddShift8 << 16) | EvenOddShift8;
+  int EvenOddShiftEight = EvenOddSwap << 8 | EvenOddSwap;
+  int EvenOddShiftSixteen = (EvenOddShiftEight << 16) | EvenOddShiftEight;
 
-  x = ((x >> 1) & EvenOddShift16) | ((x & EvenOddShift16) << 1);
+  x = ((x >> 1) & EvenOddShiftSixteen) | ((x & EvenOddShiftSixteen) << 1);
 
   int PairSwap = 0x33;
-  int PairShift8 = (PairSwap << 8) | PairSwap;
-  int PairShift16 = (PairShift8 << 16) | PairShift8; 
+  int PairShiftEight = (PairSwap << 8) | PairSwap;
+  int PairShiftSixteen = (PairShiftEight << 16) | PairShiftEight; 
 
-  x = ((x >> 2) & PairShift16) | ((x & PairShift16) << 2);  //shifts by two because its dealing with 2 bit long pairs
+  x = ((x >> 2) & PairShiftSixteen) | ((x & PairShiftSixteen) << 2);  //shifts by two because its dealing with 2 bit long pairs
 
   int nibble = 0x0f;
-  int nibbleShift8 = (nibble << 8) | nibble;
-  int nibbleShift16 = (nibbleShift8 << 16) | PairShift8;
+  int nibbleShiftEight = (nibble << 8) | nibble;
+  int nibbleShiftSixteen = (nibbleShiftEight << 16) | PairShiftEight;
 
-  x = ((x >> 4) & nibbleShift16) | ((x & nibbleShift16) << 4); //shift 4 to account the nibble length
+  x = ((x >> 4) & nibbleShiftSixteen) | ((x & nibbleShiftSixteen) << 4); //shift 4 to account the nibble length
 
   int byteSwap = 0xff;
-  int byteShift8 = byteSwap << 8;  // byteSwap is not added again here so that we can get 0xff00
-  int byteShift16 = byteShift8 << 16 | byteShift8;  //now the mask will be 0xff00ff00 thus allowing whole bytes to be swaped
+  int byteShiftEight = byteSwap << 8;  // byteSwap is not added again here so that we can get 0xff00
+  int byteShiftSixteen = byteShiftEight << 16 | byteShiftEight;  //now the mask will be 0xff00ff00 thus allowing whole bytes to be swaped
   
-  x = ((x >> 8) & byteShift16) | ((x & byteShift16) << 8); //its shited by 8 inorder to account for the size of a byte
+  x = ((x >> 8) & byteShiftSixteen) | ((x & byteShiftSixteen) << 8); //its shited by 8 inorder to account for the size of a byte
 
   int halfSwap = 0xff;
-  int halfShift8 = (halfSwap << 8) | halfSwap; // only one shift is done to get the mask 0xffff which will allow for a half word swap
+  int halfShiftEight = (halfSwap << 8) | halfSwap; // only one shift is done to get the mask 0xffff which will allow for a half word swap
 
-  x = ((x >> 16) & halfShift8) | ((x & halfShift8) << 16); //a shift of 16 is used to account for the size of 2 bytes
+  x = ((x >> 16) & halfShiftEight) | ((x & halfShiftEight) << 16); //a shift of 16 is used to account for the size of 2 bytes
   return x;
 }
 /*
