@@ -353,9 +353,8 @@ int reverseBits(int x) {
 
   int N = ((P >> 4) & nibbleShiftSixteen) | ((P & nibbleShiftSixteen) << 4); //shift 4 to account the nibble length
 
-  int byteSwap = 0xff;
-  int byteShiftEight = byteSwap << 8;  // byteSwap is not added again here so that we can get 0xff00
-  int byteShiftSixteen = byteShiftEight << 16 | byteShiftEight;  //now the mask will be 0xff00ff00 thus allowing whole bytes to be swaped
+  int byteSwap = 0xff;  // byteSwap is not added again here so that we can get 0xff00
+  int byteShiftSixteen = byteSwap << 16 | byteSwap;  //now the mask will be 0xff00ff00 thus allowing whole bytes to be swaped
   
   int B = ((N >> 8) & byteShiftSixteen) | ((N & byteShiftSixteen) << 8); //its shited by 8 inorder to account for the size of a byte
 
