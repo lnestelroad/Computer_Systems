@@ -348,24 +348,27 @@ int reverseBits(int x) {
  *   Rating: 4
  */
 int satAdd(int x, int y) {
-  int highest = 0x7fffffff;
-  int lowest = 0x80000000;
+  int sum = x+y;
+	int overflo=((sum^x)&(sum^y))>>31;
+	return (sum>>(overflo & 31)) + (overflo <<31);
+  // int highest = 0x7fffffff;
+  // int lowest = 0x80000000;
 
-  int add = x + y;
-  int xshift = 0x1 & (x >> 31);
-  int yshift = 0x1 & (y >> 31);
+  // int add = x + y;
+  // int xshift = 0x1 & (x >> 31);
+  // int yshift = 0x1 & (y >> 31);
 
-  int xNORy = xshift ^ yshift;
-  int check = 0x1 & (((add ^ y) & ( add ^ x)) >> 31);  //determins if there was an overflow
+  // int xNORy = xshift ^ yshift;
+  // int check = 0x1 & (((add ^ y) & ( add ^ x)) >> 31);  //determins if there was an overflow
 
-  int posOverflow = (check ^ yshift) & ~xNORy;
-  int negOverflow = (check & yshift) & ~xNORy;
+  // int posOverflow = (check ^ yshift) & ~xNORy;
+  // int negOverflow = (check & yshift) & ~xNORy;
 
-  int posMask = !posOverflow + ~0x00;
-  int negMask = !negOverflow + ~0x00;
+  // int posMask = !posOverflow + ~0x00;
+  // int negMask = !negOverflow + ~0x00;
 
-  int condNeg = ((~negMask) & (x + y)) | ((negMask) & lowest);
-  return ((~posMask) & condNeg) | ((posMask) & highest);
+  // int condNeg = ((~negMask) & (x + y)) | ((negMask) & lowest);
+  // return ((~posMask) & condNeg) | ((posMask) & highest);
 }
 /*
  * Extra credit
