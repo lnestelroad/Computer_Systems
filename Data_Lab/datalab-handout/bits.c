@@ -249,8 +249,8 @@ int byteSwap(int x, int n, int m) {
 
     int maskShift = (mask << nshift);
     int maskShift2 = (mask << mshift);
-
     int leftovers = x & ~(maskShift | maskShift2);
+
     int nchange = (x >> nshift) & mask;
     int mchange =(x >> mshift ) & mask;
 
@@ -335,7 +335,35 @@ int replaceByte(int x, int n, int c) {
  *  Rating: 4
  */
 int reverseBits(int x) {
-  return 0;
+  int EvenOddSwap = 0x55;
+  int EvenOddShift8 = EvenOddSwap << 8 | EvenOddSwap;
+  int EvenOddShift16 = (EvenOddShift8 << 16) | EvenOddShift8;
+
+  x = ((x >> 1) & EvenOddShift16) | ((x & EvenOddShift16) << 1);
+
+  int PairSwap = 0x33;
+  int PairShift8 = (PairSwap << 8) | PairSwap;
+  int PairShift16 = (PairShift8 << 16) | PairShift8; 
+
+  x = ((x >> 2) & PairShift16) | ((x & PairShift16) << 2);  //shifts by two because its dealing with 2 bit long pairs
+
+  int nibble = 0x0f;
+  int nibbleShift8 = (nibble << 8) | nibble;
+  int nibbleShift16 = (nibbleShift8 << 16) | PairShift8;
+
+  x = ((x >> 4) & nibbleShift16) | ((x & nibbleShift16) << 4); //shift 4 to account the nibble length
+
+  int byteSwap = 0xff;
+  int byteShift8 = byteSwap << 8;  // byteSwap is not added again here so that we can get 0xff00
+  int byteShift16 = byteShift8 << 16 | byteShift8;  //now the mask will be 0xff00ff00 thus allowing whole bytes to be swaped
+  
+  x = ((x >> 8) & byteShift16) | ((x & byteShift16) << 8); //its shited by 8 inorder to account for the size of a byte
+
+  int halfSwap = 0xff;
+  int halfShift8 = (halfSwap << 8) | halfSwap; // only one shift is done to get the mask 0xffff which will allow for a half word swap
+
+  x = ((x >> 16) & halfShift8) | ((x & halfShift8) << 16); //a shift of 16 is used to account for the size of 2 bytes
+  return x;
 }
 /*
  * satAdd - adds two numbers but when positive overflow occurs, returns
