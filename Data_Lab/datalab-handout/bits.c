@@ -339,31 +339,31 @@ int reverseBits(int x) {
   int EvenOddShiftEight = EvenOddSwap << 8 | EvenOddSwap;
   int EvenOddShiftSixteen = (EvenOddShiftEight << 16) | EvenOddShiftEight;
 
-  x = ((x >> 1) & EvenOddShiftSixteen) | ((x & EvenOddShiftSixteen) << 1);
+  int E = ((x >> 1) & EvenOddShiftSixteen) | ((x & EvenOddShiftSixteen) << 1);
 
   int PairSwap = 0x33;
   int PairShiftEight = (PairSwap << 8) | PairSwap;
   int PairShiftSixteen = (PairShiftEight << 16) | PairShiftEight; 
 
-  x = ((x >> 2) & PairShiftSixteen) | ((x & PairShiftSixteen) << 2);  //shifts by two because its dealing with 2 bit long pairs
+  int P = ((E >> 2) & PairShiftSixteen) | ((E & PairShiftSixteen) << 2);  //shifts by two because its dealing with 2 bit long pairs
 
   int nibble = 0x0f;
   int nibbleShiftEight = (nibble << 8) | nibble;
   int nibbleShiftSixteen = (nibbleShiftEight << 16) | PairShiftEight;
 
-  x = ((x >> 4) & nibbleShiftSixteen) | ((x & nibbleShiftSixteen) << 4); //shift 4 to account the nibble length
+  int N = ((P >> 4) & nibbleShiftSixteen) | ((P & nibbleShiftSixteen) << 4); //shift 4 to account the nibble length
 
   int byteSwap = 0xff;
   int byteShiftEight = byteSwap << 8;  // byteSwap is not added again here so that we can get 0xff00
   int byteShiftSixteen = byteShiftEight << 16 | byteShiftEight;  //now the mask will be 0xff00ff00 thus allowing whole bytes to be swaped
   
-  x = ((x >> 8) & byteShiftSixteen) | ((x & byteShiftSixteen) << 8); //its shited by 8 inorder to account for the size of a byte
+  int B = ((N >> 8) & byteShiftSixteen) | ((N & byteShiftSixteen) << 8); //its shited by 8 inorder to account for the size of a byte
 
   int halfSwap = 0xff;
   int halfShiftEight = (halfSwap << 8) | halfSwap; // only one shift is done to get the mask 0xffff which will allow for a half word swap
 
-  x = ((x >> 16) & halfShiftEight) | ((x & halfShiftEight) << 16); //a shift of 16 is used to account for the size of 2 bytes
-  return x;
+  int result = ((B >> 16) & halfShiftEight) | ((B & halfShiftEight) << 16); //a shift of 16 is used to account for the size of 2 bytes
+  return result;
 }
 /*
  * satAdd - adds two numbers but when positive overflow occurs, returns
