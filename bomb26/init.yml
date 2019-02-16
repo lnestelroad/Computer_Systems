@@ -9,9 +9,9 @@
       update_cache: yes
       cache_valid_time: 86400
 
-  - name: install git, gdb, vim, and gcc libraries
+  - name: install git, zsh, ohmyzsh, gdb, vim, and gcc libraries
     apt:
-      name: [git, vim, gcc-multilib, gdb]
+      name: [git, vim, gcc-multilib, gdb, zsh]
       state: present
 
   - name: pull git files from computer_systems repo
