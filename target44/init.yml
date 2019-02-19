@@ -1,0 +1,20 @@
+---
+- name: Configures a Ubuntu vm for use with gdb
+  hosts: all
+  become: true
+
+  tasks:
+  - name: Update apt
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
+
+  - name: install git, zsh, ohmyzsh, gdb, vim, and gcc libraries
+    apt:
+      name: [git, vim, gcc-multilib, gdb, zsh]
+      state: present
+
+  - name: pull git files from computer_systems repo
+    git:
+      repo: https://github.com/lnestelroad/Computer_Systems.git
+      dest: /home/vagrant/Computer_Systems

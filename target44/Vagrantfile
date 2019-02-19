@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+
+config.vm.define "attack" do |attack|
+    attack.vm.box = "ubuntu/trusty64"
+    attack.vm.hostname = "attack"
+    attack.vm.box_check_update = false  # dont check for updates, that only slows things down
+    attack.vm.provision "file", source: "~/.ssh/github_id_rsa", destination: "~/.ssh/github_id_rsa"
+  
+    attack.vm.provider :virtualbox do |v|
+      v.name = "attack"
+      v.memory = 512
+      v.cpus = 2
+    end
+
+    attack.vm.provision "ansible" do |ansible|
+      ansible.playbook = "./init.yml"
+      ansible.verbose = true
+
+    end
+  end
+end
