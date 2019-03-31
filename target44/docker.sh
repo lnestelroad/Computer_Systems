@@ -8,7 +8,7 @@ then
 elif [ $1 == "-r" ]
 then
 	./hex2raw < sol.txt > raw.data
-	./ctarget < raw.data
+	./rtarget < raw.data
 
 elif [ $1 == "-a" ]
 then
