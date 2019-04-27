@@ -1,3 +1,6 @@
 #!/bin/bash
 
-make rtest16
+make clean
+make > /dev/null
+make rtest04
+make test04
