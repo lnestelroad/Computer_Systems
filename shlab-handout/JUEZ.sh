@@ -2,5 +2,5 @@
 
 make clean
 make > /dev/null
-make rtest04
-make test04
+make rtest06
+make test06

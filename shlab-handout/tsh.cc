@@ -40,6 +40,10 @@ int verbose = 0;
 //%%%%% Helper Functions %%%%%//
 void errorMessage(const char *msg); //unix error from text
 pid_t Fork(void); // Wrapper function for fork() from text
+
+void Sigprocmask(int i, const sigset_t * mask, sigset_t * oldset);
+void Sigaddset(sigset_t *set, int signum);
+void Sigemptyset(sigset_t * oldset);
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 
 void eval(char *cmdline);
@@ -142,7 +146,7 @@ int main(int argc, char **argv)
 void errorMessage(const char *msg) //unix style error message
 {
   fprintf(stderr, "%s: %s\n", msg, strerror(errno));
-  exit(0);
+  exit(1);
 }
 
 pid_t Fork(void)  //Wrapper for fork funtion
@@ -191,13 +195,13 @@ void eval(char *cmdline)
   // strcpy(buf, cmdline);
   if(!builtin_cmd(argv)){ // determines if cmdline was a built in function
 
-  sigemptyset(&mask); // empties the mask set
-  sigaddset(&mask, SIGCHLD); // adds the SIGCHLD signal to the mask list
-  sigprocmask(SIG_BLOCK, &mask, NULL); //Blocks the SIGCHLD signals inorder to statisfy race conditions.
+  Sigemptyset(&mask); // empties the mask set
+  Sigaddset(&mask, SIGCHLD); // adds the SIGCHLD signal to the mask list
+  Sigprocmask(SIG_BLOCK, &mask, NULL); //Blocks the SIGCHLD signals inorder to statisfy race conditions.
 
     if((pid = Fork()) == 0){ // if Forked is the child process
-
-      sigprocmask(SIG_UNBLOCK, &mask, NULL); //unblocks the SIGCHLD signal before exicution
+      setpgid(0, 0);
+      Sigprocmask(SIG_UNBLOCK, &mask, NULL); //unblocks the SIGCHLD signal before exicution
       if((execv(argv[0], argv)) < 0) // runs the desired prcocess in the child
         printf("%s: Command not found.\n", argv[0]);
         exit(0);
@@ -206,24 +210,18 @@ void eval(char *cmdline)
     if (!bg){ //commands that will only apply to the foreground processes.
       // int status;
       addjob(jobs, pid, FG, cmdline); // adds jobs to though parent process
-      sigprocmask(SIG_UNBLOCK, &mask, NULL); // unblocks SIGCHLD in the parent process
+      Sigprocmask(SIG_UNBLOCK, &mask, NULL); // unblocks SIGCHLD in the parent process
 
       //what if the parent process just sleeps until the forgound finishs rather an actually waiting
       //thus similating a waitpid call?? hmmmmm
 
       // if (waitpid(pid, &status, WNOHANG|WUNTRACED) < 0) 
       //   errorMessage("waitfg: waitpid error");
-
-      while(true){
-        if (fgpid(jobs) != 0) //fancy fucntion found in the jobs.cc file. give 0 if there are no foreground processes.
-          sleep(1); //simply puts the parent process to sleep while the foreground job works.
-        else
-          break; //wakes parent up after the child process has been reaped.
-      }
+      waitfg(pid);
     }
     else{ // commands for those background processes.
         addjob(jobs, pid, BG, cmdline); // adds jobs to though parent process
-        sigprocmask(SIG_UNBLOCK, &mask, NULL); // unblocks SIGCHLD in the parent process
+        Sigprocmask(SIG_UNBLOCK, &mask, NULL); // unblocks SIGCHLD in the parent process
         printf("[%d] (%d) %s", getjobpid(jobs, pid)->jid, pid, getjobpid(jobs, pid)->cmdline);
     }
   }
@@ -312,6 +310,12 @@ void eval(char *cmdline)
   //
   void waitfg(pid_t pid)
   {
+    while(true){
+        if (fgpid(jobs) != 0) //fancy fucntion found in the jobs.cc file. give 0 if there are no foreground processes.
+          sleep(1); //simply puts the parent process to sleep while the foreground job works.
+        else
+          break; //wakes parent up after the child process has been reaped.
+      }
     return;
   }
 
@@ -335,10 +339,16 @@ void sigchld_handler(int sig)
   pid_t pid;
 
   while ((pid = waitpid(-1, &status, WNOHANG|WUNTRACED)) > 0){
-    deletejob(jobs, pid);
+    if (WIFEXITED(status)){
+      deletejob(jobs, pid);
+    }
+    else if (WIFSIGNALED(status)){
+      deletejob(jobs, pid);
+      printf ("Job [%d] (%d) terminated by signal 2", getjobpid(jobs, pid)->jid, getjobpid(jobs, pid)->pid);
+    }
   }
   if (errno != ECHILD)
-    errorMessage("waitpid error\n");
+    errorMessage("waitpid erro   r\n");
   return;
 }
 
@@ -350,6 +360,13 @@ void sigchld_handler(int sig)
 //
 void sigint_handler(int sig) 
 {
+
+  pid_t pid = fgpid(jobs);
+
+  if (pid != 0){
+    if (kill(-pid, sig) < 0)
+      errorMessage("kill error");
+  }
   return;
 }
 
@@ -369,5 +386,20 @@ void sigtstp_handler(int sig)
  *********************/
 
 
+void Sigprocmask(int i, const sigset_t * mask, sigset_t * oldset)
+{
+  if(sigprocmask(i, mask, oldset) < 0)
+    errorMessage("sigprocmask error");
+}
 
+void Sigemptyset(sigset_t * oldset)
+{
+  if(sigemptyset(oldset) < 0)
+    errorMessage("sigemptyset error");
+}
 
+void Sigaddset(sigset_t *set, int signum)
+{
+  if(sigaddset(set, signum) < 0)
+    errorMessage("sigaddset error");
+}
